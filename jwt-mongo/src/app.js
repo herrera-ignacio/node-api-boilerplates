@@ -2,23 +2,28 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import helmet from 'helmet';
+import { connectToDb } from './database';
 import { httpErrorMiddleware } from './middlewares';
+import { PORT, FRONTEND_CORS_URL } from './config';
 
 class App {
 	constructor(routes) {
 		this.app = express();
-		this.port = process.env.PORT || 3000;
-		this.dev = process.env.NODE_ENV === 'production' ? false : true; 
+		this.port = PORT;
+		this.dev = process.env.NODE_ENV === 'production' ? false : true;
 
 		this.setMiddlewares();
 		this.setRoutes(routes);
 		this.setErrorHandling();
 	}
 
-	listen() {
-		this.app.listen((this.port), () => {
-			console.log(`🚀 App listening on the port ${this.port}`);
-		});
+	start() {
+		connectToDb()
+			.then(() => {
+				this.app.listen((this.port), () => {
+					console.log(`🚀 App listening on the port ${this.port}`);
+				});
+			});
 	}
 
 	setRoutes(routes) {
@@ -38,7 +43,7 @@ class App {
 		} else {
 			this.app.use(morgan('combined'));
 			this.app.use(helmet());
-			this.app.use(cors({ origin: process.env.FRONTEND_CORS_URL, credentials: true }))
+			this.app.use(cors({ origin: FRONTEND_CORS_URL, credentials: true }))
 		}
 
 		this.app.use(express.json());

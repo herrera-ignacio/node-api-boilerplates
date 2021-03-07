@@ -1,9 +1,7 @@
-import dotenv from 'dotenv';
 import App from './app';
 import { IndexRoute, NoteRoute } from './routes';
-
-dotenv.config();
+import './database';
 
 const app = new App([new IndexRoute(), new NoteRoute()]);
 
-app.listen();
+app.start();
