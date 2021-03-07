@@ -4,6 +4,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import { connectToDb } from './database';
 import { httpErrorMiddleware } from './middlewares';
+import { setupDb } from './libs/initialDbSetup';
 import { PORT, FRONTEND_CORS_URL } from './config';
 
 class App {
@@ -20,9 +21,12 @@ class App {
 	start() {
 		connectToDb()
 			.then(() => {
-				this.app.listen((this.port), () => {
-					console.log(`🚀 App listening on the port ${this.port}`);
-				});
+				setupDb()
+					.then(() => {
+						this.app.listen((this.port), () => {
+							console.log(`🚀 App listening on the port ${this.port}`);
+						});
+					})
 			});
 	}
 
