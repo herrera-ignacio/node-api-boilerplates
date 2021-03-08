@@ -5,3 +5,5 @@ export class HttpException extends Error {
         this.message = message;
     }
 }
+
+export const defaultHttpException = new HttpException();

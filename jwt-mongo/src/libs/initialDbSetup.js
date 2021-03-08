@@ -1,5 +1,4 @@
-import bcrypt from 'bcrypt';
-import { Role, User } from '../models';
+import { Role, Roles, User } from '../models';
 
 const createInitialRoles = async () => {
 	try {
@@ -21,7 +20,7 @@ const createInitialRoles = async () => {
 
 const createInitialUser = async () => {
 	const adminUser = await User.findOne({ email: 'admin@localhost' });
-	const privilegedRoles = await Role.find({ name: { $in: ['admin', 'moderator'] } });
+	const privilegedRoles = await Role.find({ name: { $in: [Roles.ADMIN, Roles.MODERATOR] } });
 
 	if (!adminUser) {
 		try {

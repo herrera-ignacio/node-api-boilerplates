@@ -8,8 +8,8 @@ class UserModel {
 		return bcrypt.hash(pwd, salt);
 	}
 
-	async comparePassword(pwd1, pwd2) {
-		return bcrypt.compare(pwd1, pwd2)
+	async validatePassword(pwd) {
+		return bcrypt.compare(pwd, this.password);
 	} 
 }
 

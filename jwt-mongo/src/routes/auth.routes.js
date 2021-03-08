@@ -1,5 +1,15 @@
 import { Router } from 'express';
+import { AuthController } from '../controllers';
 
-const router = Router();
+export class AuthRoute {
+	constructor() {
+		this.path = '/auth';
+		this.router = Router();
+		this.authController = new AuthController();
+		this.setRoutes();
+	}
 
-export default router;
+	setRoutes() {
+		this.router.post(`${this.path}/login`, this.authController.signIn);
+	}
+}

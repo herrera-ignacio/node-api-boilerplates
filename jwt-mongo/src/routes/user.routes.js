@@ -1,5 +1,19 @@
 import { Router } from 'express';
+import { UserController } from '../controllers';
+import { verifyToken, verifyRole } from '../middlewares/authJwt';
+import { Roles } from '../models';
 
-const router = Router();
+export class UserRoute {
+	constructor() {
+		this.path = '/users';
+		this.router = Router();
+		this.userController = new UserController();
+		this.setRoutes();
+	}
 
-export default router;
+	setRoutes() {
+		this.router.get(`${this.path}`, this.userController.getUsers);
+		this.router.get(`${this.path}/:id`, this.userController.getUser);
+		this.router.post(`${this.path}`, verifyToken, verifyRole(Roles.ADMIN), this.userController.createUser);
+	}
+}

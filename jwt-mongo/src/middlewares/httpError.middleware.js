@@ -1,10 +1,10 @@
-import { HttpException } from '../exceptions';
+import { HttpException, defaultHttpException } from '../exceptions';
 
-export const httpErrorMiddleware = (error = new HttpException(), _req, res, _next) => {
-    const status = error.status;
-    const message = error.message;
+export function httpErrorMiddleware(error, _req, res, _next) {
+    const status = error.status || defaultHttpException.status;
+    const message = error.message || defaultHttpException.message;
 
     console.error('[ERROR] ', status, message);
 
-    res.status(status).json({ message });
+    return res.status(status).json({ message });
 }
