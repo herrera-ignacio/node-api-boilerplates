@@ -11,5 +11,6 @@ export class AuthRoute {
 
 	setRoutes() {
 		this.router.post(`${this.path}/login`, this.authController.signIn);
+		this.router.post(`${this.path}/signup`, this.authController.signUp);
 	}
 }

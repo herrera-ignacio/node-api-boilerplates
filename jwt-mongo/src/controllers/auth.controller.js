@@ -11,4 +11,13 @@ export class AuthController {
 			next(error);
 		}
 	}
+
+	signUp = async (req, res, next) => {
+		try {
+			const signUpData = await this.authService.signUp(req.body);
+			res.status(201).json({ data: signUpData });
+		} catch (error) {
+			next(error);
+		}
+	}
 }

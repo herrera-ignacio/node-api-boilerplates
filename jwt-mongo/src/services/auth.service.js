@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import { User } from '../models';
 import { JWT_SECRET } from '../config';
 import { UserService } from '../services';
 import { HttpException } from '../exceptions';
