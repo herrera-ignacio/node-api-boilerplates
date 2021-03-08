@@ -6,9 +6,9 @@ export class UserController {
 		}
 
 		getUsers = async (req, res, next) => {
-			const { roles } = req.query || {};
+			const { roles, withRoles } = req.query || {};
 			try {
-				const users = await this.userService.getUsers({ roles: roles && roles.split(',') });
+				const users = await this.userService.getUsers({ roles: roles && roles.split(','), withRoles });
 				return res.status(200).json({ data: users });
 			} catch (error) {
 				next(error);
@@ -17,10 +17,10 @@ export class UserController {
 
 		getUser = async (req, res, next) => {
 			const { id } = req.params;
-			const { username } = req.query || {};
+			const queryParams = req.query || {};
 
 			try {
-				const user = await this.userService.getUser({ id, username });
+				const user = await this.userService.getUser({ id, ...queryParams });
 				return res.status(200).json({ data: user });
 			} catch (error) {
 				next(error);

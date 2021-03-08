@@ -6,7 +6,7 @@ import { isEmptyObject } from '../libs/objectUtils';
 export class UserService {
 	roleService = new RoleService();
 
-	async getUsers({ roles }) {
+	async getUsers({ roles, withRoles }) {
 		let query = {};
 
 		if (roles) {
@@ -17,10 +17,10 @@ export class UserService {
 			}
 		}
 
-		return User.find(query);
+		return User.find(query).populate(withRoles? "roles" : null);
 	}
 
-	async getUser({ id, username }, { withRoles } = {}) {
+	async getUser({ id, username, withRoles } = {}) {
 		const user = id ? await User.findById(id) : await User.findOne({ username });
 
 		if (!user) throw new HttpException(400, 'User not found');

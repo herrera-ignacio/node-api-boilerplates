@@ -11,5 +11,7 @@ export class NoteRoute {
 
 	setRoutes() {
 		this.router.get(this.path, this.noteController.getNotes);
+		this.router.get(`${this.path}/:id`, this.noteController.getNote);
+		this.router.post(this.path, this.noteController.createNote);
 	}
 }
