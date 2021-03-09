@@ -29,4 +29,13 @@ export class NoteController {
 			next(error);
 		}
 	}
+
+	updateNote = async (req, res, next) => {
+		try {
+			const updatedNote = await this.noteService.updateNote(req.params.id, req.body);
+			res.status(200).json({ data: updatedNote });
+		} catch (error) {
+			next(error);
+		}
+	}
 }

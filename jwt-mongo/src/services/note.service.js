@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import { Note } from '../models';
 import { HttpException } from '../exceptions';
 import { isEmptyObject } from '../libs/objectUtils';
@@ -17,13 +16,19 @@ export class NoteService {
 		return Note.find(query).populate(withCreator ? "creator" : null);
 	}
 
-	async getNote({ id }) {
-		return Note.findById(id);
+	async getNote({ id, withCreator }) {
+		return Note.findById(id).populate(withCreator ? "creator": null);
 	}
 
 	async createNote(noteInput) {
 		if (isEmptyObject(noteInput)) throw new HttpException(400, 'Invalid note data');
 
 		return new Note(noteInput).save();
+	}
+
+	async updateNote(id, noteUpdateInput) {
+		if (isEmptyObject(noteUpdateInput)) throw new HttpException(400, 'Invalid update data');
+
+		return Note.findByIdAndUpdate(id, noteUpdateInput, { new: true });
 	}
 }
