@@ -1,6 +1,6 @@
 # JWT & Mongo
 
-Authentication & Authorization example with JWT and Mongo.\
+Authentication & Authorization example with JWT and Mongo.
 
 ## Features
 
