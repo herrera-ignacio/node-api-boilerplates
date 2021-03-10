@@ -1,8 +1,7 @@
-import * as express from 'express';
+import 'dotenv/config';
+import { App } from './app';
+import { IndexRoute } from './routes';
 
-const app = express();
+const app = new App([new IndexRoute()]);
 
-app.listen(3000, () => {
-  // eslint-disable-next-line no-console
-  console.log('Listening 3000...');
-});
+app.listen();
