@@ -3,7 +3,9 @@ import helmet from 'helmet';
 import hpp from 'hpp';
 import morgan from 'morgan';
 import cors from 'cors';
-import { Route } from './interfaces';
+import cookieParser from 'cookie-parser';
+import { createConnection } from 'typeorm';
+import { Route } from './common/interfaces';
 import { PORT, NODE_ENV, FRONTEND_CORS_URL } from './config';
 
 export class App {
@@ -14,8 +16,9 @@ export class App {
     this.app = express();
     this.port = PORT;
 
-    this.initializeRoutes(routes);
     this.initializeMiddlewares();
+    this.initializeDbConnection();
+    this.initializeRoutes(routes);
   }
 
   public listen(): void {
@@ -41,5 +44,13 @@ export class App {
       this.app.use(morgan('dev'));
       this.app.use(cors({ origin: `http://localhost:${PORT}`, credentials: true }));
     }
+
+    this.app.use(express.json());
+    this.app.use(express.urlencoded({ extended: true }));
+    this.app.use(cookieParser());
   }
+
+  private initializeDbConnection = (): void => {
+    createConnection();
+  };
 }

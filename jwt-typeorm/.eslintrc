@@ -16,7 +16,8 @@
   "rules": {
     "no-console": 2,
     "lines-between-class-members": 0,
+    "import/prefer-default-export": 0,
     "@typescript-eslint/lines-between-class-members": 0,
-    "import/prefer-default-export": 0
+    "@typescript-eslint/no-explicit-any": 0
   }
 }

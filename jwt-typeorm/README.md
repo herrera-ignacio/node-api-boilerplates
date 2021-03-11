@@ -15,6 +15,7 @@ Authentication & Authorization example with JWT, Typescript and TypeORM.
 A `.env` file is required with the following environment variables declared:
 
 * `PORT`
+* `FRONTEND_CORS_URL`
 * `POSTGRES_PASSWORD`
 * `POSTGRES_URI`
 * `JWT_SECRET`
