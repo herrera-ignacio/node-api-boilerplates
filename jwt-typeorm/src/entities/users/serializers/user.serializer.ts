@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import { IUser } from '../../users';
+import { IUser } from '../interfaces';
 import { ModelEntity } from '../../model.serializer';
 
 export const defaultUserGroupsForSerializing: string[] = ['user.timestamps'];
@@ -23,9 +23,9 @@ export class UserEntity extends ModelEntity implements IUser {
   @Expose({ groups: ['user.password'] })
   password: string;
 
-  @Expose({ groups: ['user.timestamps'] })
+  @Expose({ groups: defaultUserGroupsForSerializing })
   createdAt: Date;
 
-  @Expose({ groups: ['user.timestamps'] })
+  @Expose({ groups: defaultUserGroupsForSerializing })
   updatedAt: Date;
 }

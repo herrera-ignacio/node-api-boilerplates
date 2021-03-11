@@ -2,13 +2,13 @@ import { EntityRepository } from 'typeorm';
 import { classToPlain, plainToClass } from 'class-transformer';
 import { User } from './user.entity';
 import { ModelRepository } from '../model.repository';
-import { allUserGroupsForSerializing, UserEntity } from './serializers';
+import { defaultUserGroupsForSerializing, UserEntity } from './serializers';
 
 @EntityRepository(User)
 export class UsersRepository extends ModelRepository<User, UserEntity> {
   transform = (model: User): UserEntity => {
     const transformOptions = {
-      groups: allUserGroupsForSerializing,
+      groups: defaultUserGroupsForSerializing,
     };
 
     return plainToClass(
