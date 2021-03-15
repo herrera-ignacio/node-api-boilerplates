@@ -8,8 +8,9 @@ export class ModelService<
   T,
   K extends ModelEntity,
   QueryOptions extends ModelQueryOptions,
-  Repo extends ModelRepository<T, K>> {
-  repo: ObjectType<Repo>;
+  Repo extends ModelRepository<T, K>,
+> {
+  private readonly repo: ObjectType<Repo>;
 
   constructor(repoEntity: ObjectType<Repo>) {
     this.repo = repoEntity;
