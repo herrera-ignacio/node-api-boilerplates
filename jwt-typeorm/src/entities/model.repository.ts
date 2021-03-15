@@ -1,11 +1,10 @@
 import { plainToClass } from 'class-transformer';
 import { Repository, DeepPartial } from 'typeorm';
 import { ModelEntity } from './model.serializer';
-import { UserQueryOptions } from './users/interfaces';
-import { NotFoundException } from '../common/exceptions';
+import { ModelQueryOptions } from './model.interface';
 
 export class ModelRepository<T, K extends ModelEntity> extends Repository<T> {
-  async get(queryOptions: UserQueryOptions): Promise<K[]> {
+  async get(queryOptions: ModelQueryOptions): Promise<K[]> {
     const { relations } = queryOptions;
 
     const entities = await this.find({ relations: relations || [] });
@@ -13,17 +12,17 @@ export class ModelRepository<T, K extends ModelEntity> extends Repository<T> {
     return this.transformMany(entities);
   }
 
-  async getById(id: string, queryOptions: UserQueryOptions): Promise<K> {
+  async getById(id: string, queryOptions?: ModelQueryOptions): Promise<K> {
     const entity = await this.findOne({
       where: { id },
-      relations: queryOptions.relations,
+      relations: queryOptions?.relations,
     });
 
     return this.transform(entity);
   }
 
-  async createEntity(input: DeepPartial<T>, queryOptions?: UserQueryOptions): Promise<K> {
-    const entity = await this.save(input);
+  async saveEntity(input: DeepPartial<T>, queryOptions?: ModelQueryOptions): Promise<K> {
+    const entity = await this.save(this.create(input));
 
     if (queryOptions) {
       return this.getById((entity as any).id, queryOptions);
@@ -32,21 +31,12 @@ export class ModelRepository<T, K extends ModelEntity> extends Repository<T> {
     return this.transform(entity);
   }
 
-  async updateEntity(
-    input: { id: string } & DeepPartial<T>,
-    queryOptions?: UserQueryOptions,
-  ): Promise<K> {
-    const entity = await this.preload(input);
+  async deleteEntity(id: string): Promise<{ success: boolean }> {
+    const result = await this.delete(id);
 
-    if (!entity) throw new NotFoundException();
+    if (!result || result.affected === 0) return { success: false };
 
-    await this.save(entity);
-
-    if (queryOptions) {
-      return this.getById((entity as any).id, queryOptions);
-    }
-
-    return this.transform(entity);
+    return { success: true };
   }
 
   transform = (model: T, transformOptions = {}): K => plainToClass(

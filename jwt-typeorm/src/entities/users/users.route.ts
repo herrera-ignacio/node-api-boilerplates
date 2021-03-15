@@ -16,5 +16,6 @@ export class UsersRoute implements Route {
     this.router.get(`${this.path}/:id`, this.usersController.getById);
     this.router.post(this.path, this.usersController.create);
     this.router.put(`${this.path}/:id`, this.usersController.update);
+    this.router.delete(`${this.path}/:id`, this.usersController.delete);
   }
 }

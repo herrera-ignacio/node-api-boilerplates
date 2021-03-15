@@ -6,6 +6,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { createConnection } from 'typeorm';
 import { Route } from './common/interfaces';
+import { errorMiddleware } from './common/middlewares';
 import { PORT, NODE_ENV, FRONTEND_CORS_URL } from './config';
 
 export class App {
@@ -19,6 +20,7 @@ export class App {
     this.initializeMiddlewares();
     this.initializeDbConnection();
     this.initializeRoutes(routes);
+    this.initializeErrorHandling();
   }
 
   public listen(): void {
@@ -48,6 +50,10 @@ export class App {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(cookieParser());
+  }
+
+  private initializeErrorHandling(): void {
+    this.app.use(errorMiddleware);
   }
 
   private initializeDbConnection = (): void => {

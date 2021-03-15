@@ -1,3 +1,3 @@
-export interface UserQueryOptions {
-  relations?: string[]
-}
+import { ModelQueryOptions } from '../../model.interface';
+
+export type UserQueryOptions = ModelQueryOptions;

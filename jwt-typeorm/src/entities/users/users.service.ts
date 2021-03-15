@@ -2,7 +2,8 @@ import { getCustomRepository } from 'typeorm';
 import { User } from './user.entity';
 import { UsersRepository } from './users.repository';
 import { UserEntity } from './serializers/user.serializer';
-import { UserQueryOptions } from './interfaces/query.interface';
+import { UserQueryOptions, UserInput } from './interfaces';
+import { NotFoundException } from '../../common/exceptions';
 
 export class UsersService {
   private getRepository = (): UsersRepository => getCustomRepository(UsersRepository);
@@ -12,17 +13,29 @@ export class UsersService {
   }
 
   async getById(id: string, queryOptions?: UserQueryOptions): Promise<UserEntity> {
-    return this.getRepository().getById(id, queryOptions);
+    const user = await this.getRepository().getById(id, queryOptions);
+
+    if (!user) throw new NotFoundException();
+
+    return user;
   }
 
-  async create(inputs: Partial<User>, queryOptions?: UserQueryOptions): Promise<UserEntity> {
-    return this.getRepository().createEntity(inputs, queryOptions);
+  async create(input: UserInput, queryOptions?: UserQueryOptions): Promise<UserEntity> {
+    return this.getRepository().saveEntity(input, queryOptions);
+  }
+
+  async delete(id: string): Promise<void> {
+    const { success } = await this.getRepository().deleteEntity(id);
+
+    if (!success) throw new NotFoundException();
   }
 
   async update(
-    inputs: { id: string } & Partial<User>,
+    input: { id: string } & Partial<User>,
     queryOptions?: UserQueryOptions,
   ): Promise<UserEntity> {
-    return this.getRepository().updateEntity(inputs, queryOptions);
+    const user = await this.getById(input.id);
+
+    return this.getRepository().saveEntity(Object.assign(user, input), queryOptions);
   }
 }
