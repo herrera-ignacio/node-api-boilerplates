@@ -23,7 +23,7 @@ export class Note implements INote {
   @Column()
   folder: string;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { onDelete: 'CASCADE' })
   creator: User;
 
   @CreateDateColumn()
