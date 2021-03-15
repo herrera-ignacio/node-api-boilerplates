@@ -1,7 +1,7 @@
 import { HttpException } from './http.exception';
 
 export class NotFoundException extends HttpException {
-  constructor() {
-    super(401, 'Resource not found');
+  constructor(message?: string) {
+    super(401, message || 'Resource not found');
   }
 }

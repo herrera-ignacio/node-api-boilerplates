@@ -12,7 +12,9 @@ export class UsersRoute implements Route {
   }
 
   initializeRoutes(): void {
+    this.router.get(this.path, this.usersController.get);
     this.router.get(`${this.path}/:id`, this.usersController.getById);
     this.router.post(this.path, this.usersController.create);
+    this.router.put(`${this.path}/:id`, this.usersController.update);
   }
 }
