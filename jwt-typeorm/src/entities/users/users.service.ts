@@ -1,8 +1,7 @@
 import { getCustomRepository } from 'typeorm';
-import { User } from './user.entity';
 import { UsersRepository } from './users.repository';
-import { UserEntity } from './serializers/user.serializer';
-import { UserQueryOptions, UserInput } from './interfaces';
+import { UserEntity } from './user.serializer';
+import { UserQueryOptions, UserInput, UserUpdateInput } from './interfaces';
 import { NotFoundException } from '../../common/exceptions';
 
 export class UsersService {
@@ -31,7 +30,7 @@ export class UsersService {
   }
 
   async update(
-    input: { id: string } & Partial<User>,
+    input: UserUpdateInput,
     queryOptions?: UserQueryOptions,
   ): Promise<UserEntity> {
     const user = await this.getById(input.id);

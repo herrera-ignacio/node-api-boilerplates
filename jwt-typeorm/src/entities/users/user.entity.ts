@@ -13,7 +13,7 @@ import { IUser } from './interfaces';
 @Entity({ name: 'users' })
 export class User implements IUser {
   @PrimaryGeneratedColumn('uuid')
-  id!: string;
+  id: string;
 
   @Column()
   email: string;

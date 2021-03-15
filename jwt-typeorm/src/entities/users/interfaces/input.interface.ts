@@ -4,9 +4,6 @@ export interface UserInput {
   password: string
 }
 
-export interface UserUpdateInput {
+export interface UserUpdateInput extends Partial<UserInput> {
   id: string;
-  email?: string;
-  name?: string;
-  password?: string;
 }

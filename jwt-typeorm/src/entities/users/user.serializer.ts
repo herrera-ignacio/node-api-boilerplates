@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
-import { IUser } from '../interfaces';
-import { ModelEntity } from '../../model.serializer';
+import { IUser } from './interfaces';
+import { ModelEntity } from '../model.serializer';
 
 export const defaultUserGroupsForSerializing: string[] = ['user.timestamps'];
 

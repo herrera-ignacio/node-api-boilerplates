@@ -2,7 +2,7 @@ import { EntityRepository } from 'typeorm';
 import { classToPlain, plainToClass } from 'class-transformer';
 import { User } from './user.entity';
 import { ModelRepository } from '../model.repository';
-import { allUserGroupsForSerializing, UserEntity } from './serializers';
+import { allUserGroupsForSerializing, UserEntity } from './user.serializer';
 
 @EntityRepository(User)
 export class UsersRepository extends ModelRepository<User, UserEntity> {
