@@ -1,8 +1,9 @@
 import { DeepPartial, getCustomRepository, ObjectType } from 'typeorm';
 import { ModelEntity } from './model.serializer';
 import { ModelQueryOptions } from './model.interface';
-import { NotFoundException } from '../common/exceptions';
+import { BadRequestException, NotFoundException } from '../common/exceptions';
 import { ModelRepository } from './model.repository';
+import { isEmptyObject } from '../common/libs/objectUtils';
 
 export class ModelService<
   T,
@@ -16,7 +17,9 @@ export class ModelService<
     this.repo = repoEntity;
   }
 
-  public getRepository = (): Repo => getCustomRepository(this.repo);
+  getRepository(): Repo {
+    return getCustomRepository(this.repo);
+  }
 
   async get(queryOptions?: QueryOptions): Promise<K[]> {
     return this.getRepository().get(queryOptions);
@@ -31,13 +34,9 @@ export class ModelService<
   }
 
   async create(input: DeepPartial<T>, queryOptions?: QueryOptions): Promise<K> {
+    if (isEmptyObject(input)) throw new BadRequestException('Missing parameters');
+
     return this.getRepository().saveEntity(input, queryOptions);
-  }
-
-  async delete(id: string): Promise<void> {
-    const { success } = await this.getRepository().deleteEntity(id);
-
-    if (!success) throw new NotFoundException();
   }
 
   async update(
@@ -46,6 +45,12 @@ export class ModelService<
   ): Promise<K> {
     const note = await this.getById(input.id);
 
-    return this.getRepository().saveEntity(Object.assign(note, input), queryOptions);
+    return this.getRepository().updateEntity(Object.assign(note, input), queryOptions);
+  }
+
+  async delete(id: string): Promise<void> {
+    const { success } = await this.getRepository().deleteEntity(id);
+
+    if (!success) throw new NotFoundException();
   }
 }
