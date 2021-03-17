@@ -17,8 +17,8 @@ export class ModelController<
 
   public get = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const notes = await this.modelService.get(req.query as any);
-      res.status(200).json({ data: notes });
+      const entities = await this.modelService.get(req.query as any);
+      res.status(200).json({ data: entities });
     } catch (error) {
       next(error);
     }
@@ -26,8 +26,8 @@ export class ModelController<
 
   public getById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const note = await this.modelService.getById(req.params.id);
-      res.status(200).json({ data: note });
+      const entity = await this.modelService.getById(req.params.id);
+      res.status(200).json({ data: entity });
     } catch (error) {
       next(error);
     }
@@ -35,8 +35,8 @@ export class ModelController<
 
   public create = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const note = await this.modelService.create(req.body);
-      res.status(201).json({ data: note });
+      const entity = await this.modelService.create(req.body);
+      res.status(201).json({ data: entity });
     } catch (error) {
       next(error);
     }
@@ -44,8 +44,8 @@ export class ModelController<
 
   public update = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const note = await this.modelService.update({ id: req.params.id, ...req.body });
-      res.status(200).json({ data: note });
+      const entity = await this.modelService.update({ id: req.params.id, ...req.body });
+      res.status(200).json({ data: entity });
     } catch (error) {
       next(error);
     }
@@ -56,6 +56,7 @@ export class ModelController<
       await this.modelService.delete(req.params.id);
       res.status(204).send();
     } catch (error) {
+      console.log(error);
       next(error);
     }
   };

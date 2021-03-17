@@ -33,3 +33,25 @@ export const mockUserUpdateInput = (user: UserEntity): UserUpdateInput => ({
   email: `${getRandomString(getRandomInt(5, 10))}@example.com`,
   name: getRandomString(getRandomInt(5, 10)),
 });
+
+export const getUserMocks = (): {
+  userMock: UserEntity,
+  userInputMock: UserInput,
+  userUpdateInputMock: UserUpdateInput,
+  updatedUserMock: UserEntity,
+} => {
+  const userMock = mockUser();
+
+  const userInputMock = mockUserInput(userMock);
+
+  const userUpdateInputMock = mockUserUpdateInput(userMock);
+
+  const updatedUserMock = Object.assign(userMock, userUpdateInputMock) as UserEntity;
+
+  return {
+    userMock,
+    userInputMock,
+    userUpdateInputMock,
+    updatedUserMock,
+  };
+};
