@@ -1,3 +1,8 @@
 import { ModelQueryOptions } from '../../model.interface';
 
-export type NoteQueryOptions = ModelQueryOptions;
+export interface NoteQueryOptions extends ModelQueryOptions {
+  where: {
+    folder?: string;
+    creatorId?: string;
+  }
+}

@@ -5,9 +5,12 @@ import { ModelQueryOptions } from './model.interface';
 
 export class ModelRepository<T, K extends ModelEntity> extends Repository<T> {
   async get(queryOptions: ModelQueryOptions = {}): Promise<K[]> {
-    const { relations } = queryOptions;
+    const { where, relations } = queryOptions;
 
-    const entities = await this.find({ relations: relations || [] });
+    const entities = await this.find({
+      relations: relations || [],
+      where: where ? { ...where } : {},
+    });
 
     return this.transformMany(entities);
   }

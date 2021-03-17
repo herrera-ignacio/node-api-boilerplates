@@ -56,7 +56,6 @@ export class ModelController<
       await this.modelService.delete(req.params.id);
       res.status(204).send();
     } catch (error) {
-      console.log(error);
       next(error);
     }
   };

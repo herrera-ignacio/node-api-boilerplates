@@ -13,20 +13,20 @@ export const allNoteGroupsForSerializing: string[] = [
 ];
 
 export class NoteEntity extends ModelEntity implements INote {
-  id: string;
+  id = '';
 
-  title: string;
+  title = '';
 
-  content: string;
+  content = '';
 
-  folder: string;
+  folder = '';
 
   @Expose({ groups: creatorNoteGroupForSerializing })
   creator: UserEntity;
 
   @Expose({ groups: defaultNoteGroupsForSerializing })
-  createdAt: Date;
+  createdAt = new Date();
 
   @Expose({ groups: defaultNoteGroupsForSerializing })
-  updatedAt: Date;
+  updatedAt = new Date();
 }
