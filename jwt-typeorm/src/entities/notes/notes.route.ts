@@ -1,8 +1,14 @@
 import { Router } from 'express';
 import { Route } from '../../common/interfaces';
 import { NoteEntity } from './note.serializer';
+import { NoteInputDto, NoteUpdateInputDto } from './dtos/noteInput.dto';
 import { NotesController } from './notes.controller';
-import { parseQueryParams, createResourceLink, addResourceLinks } from '../../common/middlewares';
+import {
+  parseQueryParams,
+  createResourceLink,
+  addResourceLinks,
+  validationMiddleware,
+} from '../../common/middlewares';
 import { ClassDescriber } from '../../common/libs/classDescriber';
 
 export class NotesRoute implements Route {
@@ -45,12 +51,14 @@ export class NotesRoute implements Route {
 
     this.router.put(
       this.links.update.url,
+      validationMiddleware(NoteUpdateInputDto, { skipMissingProperties: true }),
       addResourceLinks(this.links),
       this.notesController.update,
     );
 
     this.router.post(
       this.links.create.url,
+      validationMiddleware(NoteInputDto),
       addResourceLinks(this.links),
       this.notesController.create,
     );

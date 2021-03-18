@@ -20,8 +20,8 @@ export class Note implements INote {
   @Column()
   content: string;
 
-  @Column()
-  folder: string;
+  @Column({ nullable: true })
+  folder?: string;
 
   @ManyToOne(() => User, { onDelete: 'CASCADE' })
   creator: User;

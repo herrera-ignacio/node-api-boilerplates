@@ -1,3 +1,3 @@
-export * from './input.interface';
+export * from './noteInput.interface';
 export * from './note.interface';
-export * from './query.interface';
+export * from './noteQuery.interface';
